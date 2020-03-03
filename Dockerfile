@@ -1,15 +1,19 @@
 FROM node:11-alpine
 
+RUN mkdir -p /usr/app/app/node_modules && chown -R node:node /usr/app
+
 WORKDIR /usr/app
 
-COPY package.json ./
+COPY package*.json ./
 
 RUN npm install
 
-COPY . /usr/app
+COPY --chown=node:node . .
 
-RUN mkdir tmp
+RUN mkdir -p tmp
 
-RUN mkdir tmp/uploads
+RUN mkdir -p tmp/uploads
+
+USER node
 
 EXPOSE 8080
